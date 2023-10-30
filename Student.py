@@ -26,7 +26,7 @@ class Student:
         
         # -------Manage Frame-----------
         
-        Manage_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="red")
+        Manage_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="violet")
         Manage_Frame.place(x=20,y=100,width=450,height=590)
         
         m_title=Label(Manage_Frame,text="Manage Student",bg="crimson",fg="white",font=("times new roman",30,"bold"))
@@ -92,7 +92,7 @@ class Student:
        
         #-------------Detail Frame---------
         
-        Detail_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="red")
+        Detail_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="violet")
         Detail_Frame.place(x=500,y=100,width=800,height=590)
         
         lbl_Search=Label(Detail_Frame,text="Search",bg="crimson",fg="white",font=("times new roman",20,"bold"))
@@ -110,7 +110,7 @@ class Student:
         
         #------Table Frame---------   
    
-        Table_Frame=Frame(Detail_Frame,bd=4,relief=RIDGE,bg="red")
+        Table_Frame=Frame(Detail_Frame,bd=4,relief=RIDGE,bg="light blue")
         Table_Frame.place(x=10,y=70,width=760,height=500)
    
         scroll_x=Scrollbar(Table_Frame,orient=HORIZONTAL)
