@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import pymysql
+from tkinter import messagebox
 
 class Student:
     def __init__(self,root):
@@ -26,10 +27,10 @@ class Student:
         
         # -------Manage Frame-----------
         
-        Manage_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="violet")
+        Manage_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="green")
         Manage_Frame.place(x=20,y=100,width=450,height=590)
         
-        m_title=Label(Manage_Frame,text="Manage Student",bg="crimson",fg="white",font=("times new roman",30,"bold"))
+        m_title=Label(Manage_Frame,text="Manage Student",bg="brown",fg="white",font=("times new roman",30,"bold"))
         m_title.grid(row=0,columnspan=2,pady=20)
         
         lbl_Roll=Label(Manage_Frame,text="Roll Number",bg="crimson",fg="white",font=("times new roman",20,"bold"))
@@ -92,7 +93,7 @@ class Student:
        
         #-------------Detail Frame---------
         
-        Detail_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="violet")
+        Detail_Frame=Frame(self.root,bd=4,relief=RIDGE,bg="green")
         Detail_Frame.place(x=500,y=100,width=800,height=590)
         
         lbl_Search=Label(Detail_Frame,text="Search",bg="crimson",fg="white",font=("times new roman",20,"bold"))
@@ -142,9 +143,12 @@ class Student:
         self.fetch_data()
    
     def add_students(self):
-        con=pymysql.connect(host="localhost",user="root",password="",database="stm")   
-        cur=con.cursor()
-        cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s)",(self.Roll_No_var.get(),
+        if self.Roll_No_var.get() == "" or self.name_var.get() == "" or self.email_var.get() == "" or self.gender_var.get() == "" or self.contact_var.get() == "" or self.dob_var.get() == "":
+            messagebox.showerror("Error,All fields Are Reqired!!")
+        else:    
+                con=pymysql.connect(host="localhost",user="root",password="",database="stm")   
+                cur=con.cursor()
+                cur.execute("insert into students values(%s,%s,%s,%s,%s,%s,%s)",(self.Roll_No_var.get(),
                                                                           self.name_var.get(),
                                                                           self.email_var.get(),
                                                                           self.gender_var.get(),
@@ -152,10 +156,11 @@ class Student:
                                                                           self.dob_var.get(),
                                                                           self.txt_Address.get('1.0',END)                                                                      
                                                                           ))
-        con.commit()
-        self.fetch_data()
-        self.clear()
-        con.close()
+                con.commit()
+                self.fetch_data()
+                self.clear()
+                con.close()
+                messagebox.showinfo("Success","Records Have Been Inserted")
          
     def fetch_data(self):       
         con=pymysql.connect(host="localhost",user="root",password="",database="stm")   
@@ -169,14 +174,18 @@ class Student:
                 con.commit()
         con.close() 
     
+    
     def clear(self):
+        
         self.Roll_No_var.set("")
         self.name_var.set("")
         self.email_var.set("")
         self.gender_var.set("")
         self.contact_var.set("")
         self.dob_var.set("")
-        self.txt_Address.delete("1.0",END)       
+        self.txt_Address.delete("1.0",END)
+        
+                 
                
     def get_cursor(self,ev):
         cursor_Row=self.Student_Table.focus()
@@ -192,6 +201,7 @@ class Student:
         self.txt_Address.insert(END,row[6])    
     
     def update_data(self):
+               
         con=pymysql.connect(host="localhost",user="root",password="",database="stm")   
         cur=con.cursor()
         cur.execute("update students set name=%s,email=%s,gender=%s,contact=%s,dob=%s,address=%s where roll_no=%s",(
@@ -207,6 +217,7 @@ class Student:
         self.fetch_data()
         self.clear()
         con.close()
+        messagebox.showinfo("Updated")
         
     def delete_data(self):       
         con=pymysql.connect(host="localhost",user="root",password="",database="stm")   
@@ -216,6 +227,8 @@ class Student:
         con.close()
         self.fetch_data()
         self.clear()
+        messagebox.showinfo("Deleted")
+
         
     def search_data(self):
       con = pymysql.connect(host="localhost", user="root", password="", database="stm")
